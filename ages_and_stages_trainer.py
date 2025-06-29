@@ -23,7 +23,7 @@ def to_jsonl(data, out_path):
         for item in data:
             f.write(json.dumps(item, ensure_ascii=False) + "\n")
 
-st.title("Ages & Stages Trainer (Enhanced)")
+st.title("Ages & Stages Trainer (Streamlit Cloud Safe)")
 st.markdown("Paginate questions, track progress, and never lose your answers!")
 
 json_file = "ages_and_stages.json"
@@ -45,7 +45,6 @@ if "answers" not in st.session_state:
 if "pagination" not in st.session_state:
     st.session_state.pagination = {stage: 0 for stage in stage_names}
 
-# Utility: Find # of answered questions for a stage
 def answered_count(stage, questions):
     cnt = 0
     for idx, q in enumerate(questions):
@@ -60,12 +59,10 @@ num_questions = len(questions)
 num_pages = (num_questions - 1) // QUESTIONS_PER_PAGE + 1
 cur_page = st.session_state.pagination.get(selected_stage, 0)
 
-# Progress bar
 ans_cnt = answered_count(selected_stage, questions)
 st.progress(ans_cnt / num_questions if num_questions else 1)
 st.info(f"Answered {ans_cnt} of {num_questions} questions for **{selected_stage}**")
 
-# Paginate questions
 start_idx = cur_page * QUESTIONS_PER_PAGE
 end_idx = min(start_idx + QUESTIONS_PER_PAGE, num_questions)
 st.write(f"### Questions {start_idx + 1}–{end_idx}")
@@ -81,11 +78,11 @@ col1, col2, col3 = st.columns([1,2,1])
 with col1:
     if st.button("⏮ Prev Page", disabled=cur_page==0, key="prev_btn"):
         st.session_state.pagination[selected_stage] = max(cur_page-1, 0)
-        st.experimental_rerun()
+        # No rerun! Use manual refresh if needed.
 with col3:
     if st.button("Next Page ⏭", disabled=(cur_page>=num_pages-1), key="next_btn"):
         st.session_state.pagination[selected_stage] = min(cur_page+1, num_pages-1)
-        st.experimental_rerun()
+        # No rerun! Use manual refresh if needed.
 
 # Add new questions
 st.subheader("Add a new question")
@@ -94,12 +91,10 @@ if st.button("Add Question"):
     if new_q.strip():
         stages[selected_stage]["questions"].append(new_q.strip())
         save_json(stages, json_file)
-        st.success("Added! Please reload the app to see it.")
-        # Reset pagination if new page is added
+        st.success("Added! Please refresh your browser to see the new question.")
         st.session_state.pagination[selected_stage] = (len(stages[selected_stage]["questions"]) - 1) // QUESTIONS_PER_PAGE
-        st.experimental_rerun()
+        # No rerun! Let user refresh manually.
 
-# Export answers as JSONL
 if st.button("Download Answers as JSONL"):
     data = []
     for s in stage_names:
