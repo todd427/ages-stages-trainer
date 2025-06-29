@@ -6,7 +6,8 @@
       "Describe your daily routine.",
       "Who are you closest to?",
       "What is your favorite food?"
-    ]
+    ],
+    "status": "building"
   },
   "Todd-age-8": {
     "questions": [
@@ -14,7 +15,8 @@
       "Who is your best friend?",
       "What hobbies or games do you enjoy?",
       "What do you want to be when you grow up?"
-    ]
+    ],
+    "status": "building"
   },
   "Todd-teen": {
     "questions": [
@@ -22,6 +24,7 @@
       "What are your dreams or goals?",
       "How do you spend your free time?",
       "What’s a challenge you’ve faced?"
-    ]
+    ],
+    "status": "building"
   }
 }
