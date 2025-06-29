@@ -71,7 +71,7 @@ if status == "building":
                 stages[selected_stage]["questions"].append(new_q.strip())
                 save_json(stages, json_file)
                 st.success("Added! Please refresh to see the update.")
-                st.experimental_rerun()
+                s
     else:
         st.warning(f"Reached max {MAX_QUESTIONS} questions for this stage.")
 
@@ -81,7 +81,7 @@ if status == "building":
             stages[selected_stage]["status"] = "committed"
             save_json(stages, json_file)
             st.success("Stage committed! Please refresh to answer questions.")
-            st.experimental_rerun()
+           
     else:
         st.warning(f"Need at least {MIN_QUESTIONS_TO_COMMIT} questions to commit.")
 
